@@ -1,7 +1,8 @@
 import datetime
 import time
 hoje = datetime.date.today()
-anoAtual = hoje.strftime('%Y')  
+anoAtual = hoje.strftime('%Y')
+mesAtual = hoje.strtime('%M')
 meses = {'janeiro' : 1, 'fevereiro' : 2, 'março' : 3, 'abril' : 4, 'maio' : 5, 'junho' : 6, 'julho' : 7, 'agosto' : 8, 'setembro' : 9, 'outubro' : 10, 'novembro' : 11, 'dezembro' : 12}
 while True:
     try:
@@ -25,6 +26,9 @@ while True:
 while True:
     try:
         ano = int(input("Digite o ano do seu nascimento\n"))
+        if ano < 1600:
+            print("Nosso calendario so vai até 1600")
+            break
     except ValueError:
         print(" digite um valor inteiro!")
         continue
@@ -35,9 +39,15 @@ while True:
         if dia > 31:
             print("Esse mês só tem 31 dias")
             break
+        elif dia < 1 :
+            print("O mês começa no dia primeiro")
+            break
     if mes == 4 or mes == 6 or mes == 9 or mes == 11:
         if dia > 30:
             print("Esse mês só tem 30 dias")
+            break
+        elif dia < 1:
+            print("O mês começa no dia primeiro")
             break
     if mes == 2:
         for i in range(0 , 3):
@@ -49,13 +59,20 @@ while True:
                 if dia > 29:
                     print(" Esse mes só tem 29 dias")
                     break
+                elif dia < 1:
+                    print("O mês começa no dia primeiro")
+                    break
         if bissexto != 0 :
             print("esse ano não e bissexto")
             if dia > 28:
-                    print("Esse mês so tem 28 dias") 
+                print("Esse mês so tem 28 dias") 
                     break
-    variavel_int = int(anoAtual)
-    result = ano - variavel_int
+            elif dia < 1 :
+                print("O mês começa no dia primeiro")
+                break
+    variavel_int_mes = int(mesAtual)
+    variavel_int_ano = int(anoAtual)
+    result = ano - variavel_int_ano + mes - variavel_int_mes
     if result > 0:
             print("Voce nascel no futuro ?")
             break
