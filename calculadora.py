@@ -37,8 +37,8 @@ selecione + para adição
             print("O resultado e:", resultdiv)
         except ZeroDivisionError:
             print(" o divisor deve ser um numero diferente de zero")
-            else:
-                break
+        else:
+           break
     else:
         print("digite um operador valido!")
     calcular_novamente()
