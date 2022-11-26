@@ -63,5 +63,5 @@ while True:
         print("Sua data de nascimento e:",dia ,"de", mes, "de", ano ,"\n")  
         niver = datetime.date(ano , mes , dia)
         idade_em_dias = hoje - niver
-        print(" sua idade em dias e de:", idade_em_dias.days,".") 
+        print(" sua idade em dias e de:", idade_em_dias.days,".")
         break
