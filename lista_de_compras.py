@@ -8,6 +8,7 @@ def lista():
         while laco_insert:
             insert_produto = input("Digite o produto que deseja incluir na lista de compra:\n")
             mylist.append(insert_produto)
+            laco_insert_itermediario = True
             incluir_novamente = input("Deseja incluir mais produtos?\n [S]im ou N[ão]\n").upper()
             if incluir_novamente == "S":
                 continue
@@ -19,8 +20,7 @@ def lista():
                     insert_fim= input("deseja concluir a sua lista?\n [S]im ou [N]ão\n").upper()
                     if insert_fim == "S":
                         print("lista concluida com sucesso")
-                        laco_insert = False
-                        break
+                        exit()
                     elif insert_fim == "N":
                         lista()
                     else:
@@ -28,7 +28,7 @@ def lista():
                         continue
             else:
                 print("Opção digitada e invalida!")
-                break
+                continue
     elif escolha == "E":
         if mylist == '':
             print("não a o que excluir na lista")
@@ -43,25 +43,30 @@ def lista():
                 if mylist.count(delet_produto) != 0:
                     mylist.remove(delet_produto)
                     print("produto excluido com sucesso")
-                    delet_novamente = input("Deseja deletar mais produtos?\n [S]im ou [N]ão\n").upper()
-                    if delet_novamente == "S":
-                        continue
-                    elif delet_novamente == "N":
-                        for indice, produto in enumerate(mylist, start=1):
-                            print(indice, produto)
-                    while True:
-                        delet_fim = input("Deseja concluir a lista?\n [S]im ou [N]ão\n").upper()
-                        if delet_fim == "S":
-                            print("Lista concluida com sucesso")
-                            exit()
-                        elif delet_fim == "N":
-                            lista()
-                        else:
-                            print("opção invalida!")
+                    laco_deler_itermediario = True
+                    while laco_deler_itermediario:
+                        delet_novamente = input("Deseja deletar mais produtos?\n [S]im ou [N]ão\n").upper()
+                        if delet_novamente == "S":
                             continue
-                else:
-                    print("opção digitada invalida!")
-                    break
+                        elif delet_novamente == "N":
+                            for indice, produto in enumerate(mylist, start=1):
+                                print(indice, produto)
+                        else:
+                            print(" opção invalida!")
+                            continue
+                        while True:
+                            delet_fim = input("Deseja concluir a lista?\n [S]im ou [N]ão\n").upper()
+                            if delet_fim == "S":
+                                print("Lista concluida com sucesso")
+                                exit()
+                            elif delet_fim == "N":
+                                lista()
+                            else:
+                                print("opção invalida!")
+                                continue
+                    else:
+                        print("opção digitada invalida!")
+                        break
     elif escolha == "M":
         if mylist == '':
             print(" A lista esta Vazia")
@@ -106,6 +111,7 @@ def lista():
                         continue
                     elif mylist.count(novo_produto) == 0:
                         mylist[mylist.index(substituir_produto)]= novo_produto
+                        print("produto substituido com sucesso")
                         lista()
     else:
         print(" opção invalida!")
