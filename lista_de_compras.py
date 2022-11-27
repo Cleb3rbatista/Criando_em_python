@@ -32,6 +32,7 @@ def lista():
     elif escolha == "E":
         if mylist == '':
             print("não a o que excluir na lista")
+            lista()
         else:
             laco_delet = True
             while laco_delet:
@@ -52,8 +53,7 @@ def lista():
                         delet_fim = input("Deseja concluir a lista?\n [S]im ou [N]ão\n").upper()
                         if delet_fim == "S":
                             print("Lista concluida com sucesso")
-                            laco_delet = False
-                            break
+                            exit()
                         elif delet_fim == "N":
                             lista()
                         else:
@@ -67,9 +67,10 @@ def lista():
             print(" A lista esta Vazia")
             lista()
         else:
-            for indice, produto in enumerate(mylist):
+            for indice, produto in enumerate(mylist, start= 1):
                 print(indice,produto)
-                lista()
+                continue
+            lista()
     elif escolha == "L":
         if mylist == '':
             print(" A lista esta vazia")
@@ -84,8 +85,29 @@ def lista():
                         lista()
                     elif criar_nova_lista == "N":
                         print("saindo...")
-                        break
+                        exit()
                     else:
                         print("opção invalida!")
                         continue
+    elif escolha == "S":
+        if mylist == '':
+            print("não tem oque substituir")
+            lista()
+        else:
+            while True:
+                substituir_produto = input("Digite o nome do produto que deseja substituir\n")
+                if mylist.count(substituir_produto)== 0:
+                    print("não existe esse produto na lista")
+                    continue
+                elif mylist.count(substituir_produto) != 0:
+                    novo_produto = input("digite o nome do novo produto\n")
+                    if mylist.count(novo_produto) != 0:
+                        print(" esse produto ja esta na lista")
+                        continue
+                    elif mylist.count(novo_produto) == 0:
+                        mylist[mylist.index(substituir_produto)]= novo_produto
+                        lista()
+    else:
+        print(" opção invalida!")
+        lista()          
 lista()
