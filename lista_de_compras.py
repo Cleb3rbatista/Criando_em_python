@@ -9,26 +9,27 @@ def lista():
             insert_produto = input("Digite o produto que deseja incluir na lista de compra:\n")
             mylist.append(insert_produto)
             laco_insert_itermediario = True
-            incluir_novamente = input("Deseja incluir mais produtos?\n [S]im ou N[ão]\n").upper()
-            if incluir_novamente == "S":
-                continue
-            elif incluir_novamente == "N":
-                for indice , produto in enumerate(mylist , start=1):
-                    print( indice , produto)
-                    continue
-                while True:
-                    insert_fim= input("deseja concluir a sua lista?\n [S]im ou [N]ão\n").upper()
-                    if insert_fim == "S":
-                        print("lista concluida com sucesso")
-                        exit()
-                    elif insert_fim == "N":
-                        lista()
-                    else:
-                        print("opção invalida!")
+            while laco_insert_itermediario:
+                incluir_novamente = input("Deseja incluir mais produtos?\n [S]im ou N[ão]\n").upper()
+                if incluir_novamente == "S":
+                    break
+                elif incluir_novamente == "N":
+                    for indice , produto in enumerate(mylist , start=1):
+                        print( indice , produto)
                         continue
-            else:
-                print("Opção digitada e invalida!")
-                continue
+                    while True:
+                        insert_fim= input("deseja concluir a sua lista?\n [S]im ou [N]ão\n").upper()
+                        if insert_fim == "S":
+                            print("lista concluida com sucesso")
+                            exit()
+                        elif insert_fim == "N":
+                            lista()
+                        else:
+                            print("opção invalida!")
+                            continue
+                else:
+                    print("Opção digitada e invalida!")
+                    continue
     elif escolha == "E":
         if mylist == '':
             print("não a o que excluir na lista")
@@ -80,20 +81,27 @@ def lista():
         if mylist == '':
             print(" A lista esta vazia")
         else:
-            confirma_lipeza = input("deseja mesmo excluir todos os produtos da lista?\n [S]im ou [N]ão\n").upper()
-            if confirma_lipeza == "S":
-                mylist.clear()
-                print("lista limpa com sucesso")
-                criar_nova_lista = input("Deseja criar uma nova lista?\n [S]im ou [N]ão\n").upper()
-                while True:    
-                    if criar_nova_lista == "S":
-                        lista()
-                    elif criar_nova_lista == "N":
-                        print("saindo...")
-                        exit()
-                    else:
-                        print("opção invalida!")
-                        continue
+            while True:
+                confirma_lipeza = input("deseja mesmo excluir todos os produtos da lista?\n [S]im ou [N]ão\n").upper()
+                if confirma_lipeza == "S":
+                    mylist.clear()
+                    print("lista limpa com sucesso")
+                    while True:
+                        criar_nova_lista = input("Deseja criar uma nova lista?\n [S]im ou [N]ão\n").upper()    
+                        if criar_nova_lista == "S":
+                            lista()
+                        elif criar_nova_lista == "N":
+                            print("saindo...")
+                            exit()
+                        else:
+                            print("opção invalida!")
+                            continue
+                elif confirma_lipeza == "N":
+                    lista()
+                else:
+                    print("opção invalida!")
+                    continue
+                
     elif escolha == "S":
         if mylist == '':
             print("não tem oque substituir")
