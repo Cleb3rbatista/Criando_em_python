@@ -1,6 +1,11 @@
 import re  
 cpf_digitado = re.sub(r'[^0-9]','',input("digite seu cpf\n"))
 quantidade_digitos_cpf = len(cpf_digitado)
+entrada_sequecial = cpf_digitado == cpf_digitado[0] * quantidade_digitos_cpf
+
+if entrada_sequecial == True:
+    print("cpf invalido!")
+
 if quantidade_digitos_cpf >= 11:
     digito_cpf_1 = int(cpf_digitado[0]) * 10
     digito_cpf_2 = int(cpf_digitado[1]) * 9
