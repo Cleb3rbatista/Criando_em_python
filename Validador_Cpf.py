@@ -5,6 +5,7 @@ entrada_sequecial = cpf_digitado == cpf_digitado[0] * quantidade_digitos_cpf
 
 if entrada_sequecial == True:
     print("cpf invalido!")
+    exit()
 
 if quantidade_digitos_cpf >= 11:
     digito_cpf_1 = int(cpf_digitado[0]) * 10
