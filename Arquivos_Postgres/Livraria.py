@@ -44,27 +44,36 @@ def comprar_livros():
         cursor.execute(f"SELECT *  FROM public.livros WHERE id_livros = '{idlivro_escolhido}'")
         
         for livro_para_comprar in cursor.fetchall():
-            confirmando_livro = input(f"O livro escolhido e {livro_para_comprar[1]}?\n [S]im ou [N]ão\n").upper()
-        
-            if confirmando_livro == "S":
-                print(f"O livro {livro_para_comprar[1]} custa {livro_para_comprar[6]}")
-                
-            elif confirmando_livro == "N":
-                escolher_novamente=input("lamento, deseja escolher novamente?\n [S]im ou [N]ão\n").upper()
-                
-                if escolher_novamente == "S":
-                    os.system("cls")
-                    comprar_livros()
-                    
-                elif escolher_novamente == "N":
-                    print("Saindo...")
+            while True:
+                confirmando_livro = input(f"O livro escolhido e {livro_para_comprar[1]}?\n [S]im ou [N]ão\n").upper()
+            
+                if confirmando_livro == "S":
+                    print(f"O livro {livro_para_comprar[1]} custa {livro_para_comprar[6]}")
+                    print("Boa leitura!")
                     exit()
                     
+                elif confirmando_livro == "N":
+                    while True:
+                        escolher_novamente=input("lamento, deseja escolher novamente?\n [S]im ou [N]ão\n").upper()
+                        
+                        if escolher_novamente == "S":
+                            os.system("cls")
+                            comprar_livros()
+                            
+                        elif escolher_novamente == "N":
+                            print("Saindo...")
+                            exit()
+                            
+                        else:
+                            print()
+                            print("opção invalida!\n tente novamente")
+                            print()
+                            continue
                 else:
-                    print("opção invalida!")
-            else:
-                print("opção invalida!")           
-
+                    print()
+                    print("opção invalida!\n tente novamente")
+                    print()
+                    continue           
 
         conexao.close()
         cursor.close()
