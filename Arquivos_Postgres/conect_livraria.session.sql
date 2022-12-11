@@ -5,7 +5,7 @@ CREATE TABLE livros
     autor VARCHAR (50) NOT NULL,
     sexo_do_autor CHAR(1) NOT NULL,
     ano_de_lancamento NUMERIC(4,0),
-    descricao VARCHAR(1000),
+    descricao VARCHAR(2000),
     preco money
 )
 
