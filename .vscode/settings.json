@@ -3,13 +3,13 @@
     {
       "previewLimit": 50,
       "server": "localhost",
-      "port": 5433,
+      "port": 5432,
       "driver": "PostgreSQL",
-      "name": "teste",
-      "group": "teste",
-      "database": "Biblioteca_db",
+      "name": "conect_livraria",
+      "group": "conect_livraria",
+      "database": "Biblioteca",
       "username": "postgres",
-      "password": "Cl&ber22"
+      "password": "postgres"
     }
   ]
 }
