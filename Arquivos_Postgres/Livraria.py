@@ -106,7 +106,7 @@ def incluir_novos_livros():
         if len(nome_do_novo_livro) >= 5:
             while True:
                 nome_do_novo_autor = input("Qual o nome do autor?\n")
-                if len(nome_do_novo_autor) >= 10:
+                if len(nome_do_novo_autor) >= 3:
                     while True:
                         sexo_do_novo_autor = input("Qual o sexo do autor?\n[M]asculino ou [F]eminino\n").upper()
                         if sexo_do_novo_autor == 'M' or 'F':
@@ -139,8 +139,8 @@ def incluir_novos_livros():
                         else:
                             print("Opção invalida\n tente novamente\n")
                             continue
-                elif len(nome_do_novo_autor) <15:
-                    print("O nome do autor deve conter no minimo 10 caracters\n")
+                elif len(nome_do_novo_autor) <3:
+                    print("O nome do autor deve conter no minimo 3 caracters\n")
                     continue
                     
         else:
@@ -247,9 +247,14 @@ def inativa_livro():
 def buscar_livro_nome():
     nome_do_livro_pesquisa = input("Qual o nome do livro ?\n")
     cursor.execute(f"SELECT id_livros, livro, preco, inativo FROM livros WHERE inativo = false and livro ILIKE '%{nome_do_livro_pesquisa}%' ORDER BY id_livros, id_livros ASC; ")
-    for linha in cursor.fetchall():
-        print(f"{linha[0]}) {linha[1]} custa atualmente {linha[2]},")    
-    volta_ao_menu()
+    if cursor.fetchall()==[]:
+         print("livro não encotrado")
+         volta_ao_menu()
+    else:
+        cursor.execute(f"SELECT id_livros, livro, preco, inativo FROM livros WHERE inativo = false and livro ILIKE '%{nome_do_livro_pesquisa}%' ORDER BY id_livros, id_livros ASC; ")
+        for linha in cursor.fetchall():
+            print(f"{linha[0]}) {linha[1]} custa atualmente {linha[2]},")
+        volta_ao_menu()
         
 def menu():
     escolha_o_menu = input("Escolha uma opção do menu\n1 - Ver lista de livros\n2 - Comprar livros\n3 - Cadastrar novo livro\n4 - Alterar preço de livros\n5 - Ler resumo sobre o livro\n6 - inativar/ativar livro\n7 - Busca de livro por nome\n0 - Fechar sistema\n")
