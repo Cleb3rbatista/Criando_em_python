@@ -13,6 +13,7 @@ def volta_ao_menu():
     while True:
         opcao_volta_menu = input("Deseja volta ao menu ?\n[S]im ou [N]ão\n").upper()
         if opcao_volta_menu == "S":
+            os.system("cls")
             menu()
         elif opcao_volta_menu == "N":
             print("Saindo...")
@@ -132,8 +133,7 @@ def incluir_novos_livros():
                                             cursor.execute(f"INSERT INTO livros(livro, autor, sexo_do_autor, ano_de_lancamento, descricao, preco, inativo) VALUES ('{nome_do_novo_livro}', '{nome_do_novo_autor}', '{sexo_do_novo_autor}', {ano_do_livro_novo}, '{descricao_do_novo_livro}',{preco_do_novo_livro}, 'false');")
                                             conexao.commit()
                                             print("livro cadastrado com sucesso")
-                                            volta_ao_menu()
-                                  
+                                            volta_ao_menu()                 
                         else:
                             print("Opção invalida\n tente novamente\n")
                             continue
@@ -144,9 +144,106 @@ def incluir_novos_livros():
         else:
             print("O nome do livro deve conter no minimo 5 caracters\n")
             continue
+                                    
+def altera_preco_livro():
+    while True:
+        try:
+            livro_para_alterar_preco = int(input("Qual e o código do livro ?\n"))
+            if livro_para_alterar_preco <= 0:
+                print("A lista começa do livro de numero 1\n tente novamente\n")
+                continue
+            cursor.execute(f"SELECT id_livros  FROM public.livros")
+            qtd_livros =len(cursor.fetchall())
+            if livro_para_alterar_preco > qtd_livros:
+                print(f"Atualmente a somete {qtd_livros} na biblioteca\n tente navamente!\n")
+                continue
+        except ValueError:
+            print("\ndigite um valor inteiro!\ntente novamente\n")
+            continue
+        cursor.execute(f"SELECT livro, autor, ano_de_lancamento ,preco FROM livros WHERE id_livros='{livro_para_alterar_preco}'")
+        for linha in cursor.fetchall():
+            while True:
+                confirmando_livro = input(f"O livro escolhido e {linha[0]} lançado em {linha[2]} por {linha[1]} o preço atual e de {linha[3]}\nDesja altera o preço do livro?\n [S]im ou [N]ão\n").upper()
+                if confirmando_livro == 'N':
+                    print("ops!")
+                    volta_ao_menu()
+                elif confirmando_livro == 'S':
+                    preco_novo = input("\nQual e o preço novo ?\n")
+                    cursor.execute(f"UPDATE livros SET preco={preco_novo} WHERE id_livros = '{livro_para_alterar_preco}';")
+                    conexao.commit()
+                    volta_ao_menu()
+                else:
+                    print("\nOpção invalida!\n tente novamente\n")
+                    continue
+                
+def ler_descricao():
+    while True:
+            try:
+                livro_para_ler_descricao = int(input("Qual e o código do livro ?\n"))
+                if livro_para_ler_descricao <= 0:
+                    print("A lista começa do livro de numero 1\n tente novamente\n")
+                    continue
+                cursor.execute(f"SELECT id_livros  FROM public.livros")
+                qtd_livros =len(cursor.fetchall())
+                if livro_para_ler_descricao > qtd_livros:
+                    print(f"Atualmente a somete {qtd_livros} na biblioteca\n tente novamente!\n")
+                    continue
+            except ValueError:
+                print("\ndigite um valor inteiro!\ntente novamente\n")
+                continue
             
+            cursor.execute(f"SELECT livro, descricao FROM livros WHERE id_livros = '{livro_para_ler_descricao}'")
+            for linha in cursor.fetchall():
+                print(f"Livro: {linha[0]}\nDescrição: {linha[1]}\n") 
+                volta_ao_menu()      
+def inativa_livro():
+     while True:
+            try:
+                livro_para_inativar = int(input("Qual e o código do livro ?\n"))
+                if livro_para_inativar <= 0:
+                    print("A lista começa do livro de numero 1\n tente novamente\n")
+                    continue
+                cursor.execute(f"SELECT id_livros  FROM public.livros")
+                qtd_livros =len(cursor.fetchall())
+                if livro_para_inativar > qtd_livros:
+                    print(f"Atualmente a somete {qtd_livros} na biblioteca\n tente novamente!\n")
+                    continue
+            except ValueError:
+                print("\ndigite um valor inteiro!\ntente novamente\n")
+                continue
+            
+            cursor.execute(f"SELECT livro , inativo FROM livros WHERE id_livros = '{livro_para_inativar}'")
+            for linha in cursor.fetchall():
+                if linha[1] == False:
+                    print("\nO livro não esta inativo")
+                    while True:
+                        deseja_inativar = input("Deseja inativar o livro ?\n[S]im ou [N]ão\n").upper()
+                        if deseja_inativar == 'N':
+                            volta_ao_menu()
+                        elif deseja_inativar == 'S': 
+                            cursor.execute(f"UPDATE livros SET inativo = true WHERE id_livros = '{livro_para_inativar}';")
+                            conexao.commit()
+                            volta_ao_menu()
+                        else:
+                            print("Opção invalida!\ntente novamente\n")
+                            continue
+                        
+                elif linha[1] == True:
+                    print("O livro esta inativo")
+                    while True:
+                        deseja_ativar = input("Deseja ativar o livro ?\n[S]im ou [N]ão\n").upper()
+                        if deseja_ativar == 'N':
+                            volta_ao_menu()
+                        elif deseja_ativar == 'S': 
+                            cursor.execute(f"UPDATE livros SET inativo = false WHERE id_livros = '{livro_para_inativar}';")
+                            conexao.commit()
+                            volta_ao_menu()
+                        else:
+                            print("Opção invalida!\ntente novamente\n")
+                            continue
+                    
 def menu():
-    escolha_o_menu = input("Escolha uma opção do menu\n1- Ver lista de livros\n2- Comprar livros\n3- Cadastrar novo livro\n4- Alterar preço de livros\n5- Ler resumo sobre o livro\n6- inativar algun livro\n")
+    escolha_o_menu = input("Escolha uma opção do menu\n1 - Ver lista de livros\n2 - Comprar livros\n3 - Cadastrar novo livro\n4 - Alterar preço de livros\n5 - Ler resumo sobre o livro\n6 - inativar/ativar livro\n")
     if escolha_o_menu == '1':
         busca_de_livros()
         volta_ao_menu()
@@ -154,4 +251,10 @@ def menu():
         comprar_livros()
     elif escolha_o_menu == '3':
         incluir_novos_livros()
+    elif escolha_o_menu == '4':
+        altera_preco_livro()
+    elif escolha_o_menu == '5':
+        ler_descricao()
+    elif escolha_o_menu == '6':
+        inativa_livro()
 menu()
