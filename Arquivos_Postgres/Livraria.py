@@ -34,7 +34,6 @@ def comprar_livros():
         elif deseja_comprar == "S":
             while True:
                 try:
-                    
                     idlivro_escolhido = int(input("Qual o numero do livro que voce deseja comprar?\n"))
                     if idlivro_escolhido <= 0:
                         print("A lista começa do livro de numero 1\n tente novamente\n")
@@ -62,9 +61,12 @@ def comprar_livros():
         cursor.execute(f"SELECT *  FROM public.livros WHERE id_livros = '{idlivro_escolhido}'")
         
         for livro_para_comprar in cursor.fetchall():
+            if livro_para_comprar[7] == True:
+                print("o livro esta inativo!")
+                volta_ao_menu()
             while True:
                 confirmando_livro = input(f"O livro escolhido e {livro_para_comprar[1]}?\n [S]im ou [N]ão\n").upper()
-            
+
                 if confirmando_livro == "S":
                     print(f"O livro {livro_para_comprar[1]} custa {livro_para_comprar[6]}")
                     print("Boa leitura!")
@@ -92,9 +94,9 @@ def comprar_livros():
                     print("opção invalida!\n tente novamente")
                     print()
                     continue       
-        
+                
 def busca_de_livros():
-    cursor.execute("SELECT id_livros , livro ,preco FROM public.livros")
+    cursor.execute("SELECT id_livros , livro ,preco FROM public.livros WHERE inativo = false ORDER BY id_livros, id_livros ASC")
     for linha in cursor.fetchall():
         print(f" {linha[0]}) {linha[1]} preço: {linha[2]},")
 
@@ -242,8 +244,15 @@ def inativa_livro():
                             print("Opção invalida!\ntente novamente\n")
                             continue
                     
+def buscar_livro_nome():
+    nome_do_livro_pesquisa = input("Qual o nome do livro ?\n")
+    cursor.execute(f"SELECT id_livros, livro, preco, inativo FROM livros WHERE inativo = false and livro ILIKE '%{nome_do_livro_pesquisa}%' ORDER BY id_livros, id_livros ASC; ")
+    for linha in cursor.fetchall():
+        print(f"{linha[0]}) {linha[1]} custa atualmente {linha[2]},")    
+    volta_ao_menu()
+        
 def menu():
-    escolha_o_menu = input("Escolha uma opção do menu\n1 - Ver lista de livros\n2 - Comprar livros\n3 - Cadastrar novo livro\n4 - Alterar preço de livros\n5 - Ler resumo sobre o livro\n6 - inativar/ativar livro\n")
+    escolha_o_menu = input("Escolha uma opção do menu\n1 - Ver lista de livros\n2 - Comprar livros\n3 - Cadastrar novo livro\n4 - Alterar preço de livros\n5 - Ler resumo sobre o livro\n6 - inativar/ativar livro\n7 - Busca de livro por nome\n0 - Fechar sistema\n")
     if escolha_o_menu == '1':
         busca_de_livros()
         volta_ao_menu()
@@ -257,4 +266,11 @@ def menu():
         ler_descricao()
     elif escolha_o_menu == '6':
         inativa_livro()
+    elif escolha_o_menu == '7':
+        buscar_livro_nome()
+    elif escolha_o_menu == '0':
+        exit()
+    else:
+        print("opção invalida!\n")
+        volta_ao_menu()
 menu()
