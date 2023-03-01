@@ -2,7 +2,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 
 # importando arquivo xls e filtrando colunas mais relevantes
-planilha = pd.read_excel("D:/UFs_IBGE.xls",\
+planilha = pd.read_excel("/UFs_IBGE.xls",\
     usecols =["UF [-]","Área Territorial - km² [2021]","População estimada - pessoas [2021]",\
                     "Densidade demográfica - hab/km² [2010]"])
 
@@ -21,7 +21,7 @@ planilha["Aumento na densidade demográfica"] = aumento_desidade_democrafica
 plt.figure(figsize=(12,6))
 plt.bar(x=planilha["UF [-]"],height=planilha["Densidade demográfica - hab/km² [2021]"],color = "green",label = "Densidade demográfica - hab/km² - 2021")
 plt.bar(x=planilha["UF [-]"],height=planilha["Densidade demográfica - hab/km² [2010]"],color = "blue",alpha=0.5 , label = "Densidade demográfica - hab/km² - 2010")
-plt.bar(x=planilha["UF [-]"],height=planilha["Aumento na densidade demográfica"],color = "yellow",label = "Aumento da densidade domografica de 2010 até 2021")
+plt.bar(x=planilha["UF [-]"],height=planilha["Aumento na densidade demográfica"],color = "orange",label = "Aumento da densidade domografica de 2010 até 2021")
 plt.xticks(rotation=90)
 plt.legend(loc="best")
 plt.show()
